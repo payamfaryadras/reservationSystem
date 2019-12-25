@@ -3,21 +3,35 @@ package com.payam.learn.reservation.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
+
 @Getter
-@Setter
 @Entity
 public class Trip {
     @Id
     private UUID id;
-    private final double fare;
 
     public Trip() {
         this.id = UUID.randomUUID();
-        this.fare = 0;
     }
+
+    @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "source_stop_id", referencedColumnName = "id")
+    private Stop source;
+    @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "destination_stop_id", referencedColumnName = "id")
+    private Stop destination;
+    @Setter
+    private int fare;
+    @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "trip_bus_id", referencedColumnName = "id")
+    private Bus bus;
+    @Setter
+    private int journeyTime;
+
 
 }
