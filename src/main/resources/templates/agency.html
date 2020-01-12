@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+</head>
+
+<body>
+
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid" layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+        <div class="col-md-5 col-8 align-self-center">
+            <h3 class="text-themecolor m-b-0 m-t-0">Agency Details</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="home">Home</a></li>
+                <li class="breadcrumb-item active">Agencies</li>
+            </ol>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Row -->
+    <div class="row">
+        <!-- column -->
+        <div class="col-lg-8 col-md-7">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Agencies</h4>
+                    <h6 class="card-subtitle">Agency owned buses</h6>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Agency Name</th>
+                                <th>Agency description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="agency,iterationStatus : ${agencies}">
+                                <tr>
+                                    <td th:text=${iterationStatus.count}></td>
+                                    <td th:text=${agency.name}></td>
+                                    <td th:text=${agency.description}></td>
+
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-5">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">Add New Agency</h3>
+                    <h6 class="card-subtitle">Enter details</h6>
+                    <form method="POST" class="form-horizontal form-material" th:action="@{/agency}" th:object="${agency}">
+                        <div class="form-group">
+                            <label for="name" class="col-md-12">Name</label>
+                            <div class="col-md-12">
+                                <input type="text" th:field="*{name}" class="form-control form-control-line" name="name" id="name">
+                            </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-md-12">Description</label>
+                            <div class="col-md-12">
+                                <input type="text" th:field="*{description}" class="form-control form-control-line" name="description" id="description">
+                            </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success">Add Agency</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Container fluid  -->
+<!-- ============================================================== -->
+</body>
+
+</html>

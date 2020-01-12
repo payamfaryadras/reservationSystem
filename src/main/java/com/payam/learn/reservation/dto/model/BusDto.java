@@ -21,4 +21,8 @@ public class BusDto {
     @NotBlank
     private String detail;
 
+    private String agencyName;
+
+    private String agencyId;
+
 }

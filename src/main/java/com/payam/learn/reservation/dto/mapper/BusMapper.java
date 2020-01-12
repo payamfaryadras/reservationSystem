@@ -14,6 +14,8 @@ public class BusMapper {
     public static BusDto toBusDto(Bus bus) {
         return new BusDto().setId(bus.getId().toString())
                 .setCapacity(bus.getCapacity())
-                .setDetail(bus.getDetail());
+                .setDetail(bus.getDetail())
+                .setAgencyId(bus.getAgency().getId().toString())
+                .setAgencyName(bus.getAgency().getName());
     }
 }

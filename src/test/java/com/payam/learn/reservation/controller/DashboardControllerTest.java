@@ -96,31 +96,31 @@ public class DashboardControllerTest {
 //    }
 
 
-    @Test
-    public void get_stop_should_not_null_stop() throws Exception {
-        mockMvc.perform(get("/stop"))
-                .andExpect(model().attribute("stop",notNullValue()));
-    }
-
-    @Test
-    public void get_stop_shuold_render_stop_view() throws Exception {
-
-        mockMvc.perform(get("/stop"))
-                .andExpect(view().name("stop"));
-    }
-
-
-    @Test
-    public void post_stop_raise_error_when_name_not_valid() throws Exception {
-
-        mockMvc.perform(post("/stop").param("name",""))
-                .andExpect(model().attributeHasFieldErrors("stop","name"));
-    }
-
-    @Test
-    public void post_stop_raise_error_when_description_not_valid() throws Exception {
-        mockMvc.perform(post("/stop").param("description",""))
-                .andExpect(model().attributeHasFieldErrors("stop","description"));
-
-    }
+//    @Test
+//    public void get_stop_should_not_null_stop() throws Exception {
+//        mockMvc.perform(get("/stop"))
+//                .andExpect(model().attribute("stop",notNullValue()));
+//    }
+//
+//    @Test
+//    public void get_stop_shuold_render_stop_view() throws Exception {
+//
+//        mockMvc.perform(get("/stop"))
+//                .andExpect(view().name("stop"));
+//    }
+//
+//
+//    @Test
+//    public void post_stop_raise_error_when_name_not_valid() throws Exception {
+//
+//        mockMvc.perform(post("/stop").param("name",""))
+//                .andExpect(model().attributeHasFieldErrors("stop","name"));
+//    }
+//
+//    @Test
+//    public void post_stop_raise_error_when_description_not_valid() throws Exception {
+//        mockMvc.perform(post("/stop").param("description",""))
+//                .andExpect(model().attributeHasFieldErrors("stop","description"));
+//
+//    }
 }

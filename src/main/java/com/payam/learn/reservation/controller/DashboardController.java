@@ -1,5 +1,6 @@
 package com.payam.learn.reservation.controller;
 
+import com.payam.learn.reservation.dto.model.AgencyDto;
 import com.payam.learn.reservation.dto.model.BusDto;
 import com.payam.learn.reservation.dto.model.StopDto;
 import com.payam.learn.reservation.dto.model.TripDto;
@@ -64,9 +65,30 @@ public class DashboardController {
     }
 
 
+    @GetMapping("/agency")
+    public ModelAndView createAgency(){
+        ModelAndView modelAndView = addAgenciesToModel(new ModelAndView());
+        AgencyDto agencyDto = new AgencyDto();
+        modelAndView.addObject("agency",agencyDto);
+        return modelAndView;
+    }
+
+    @PostMapping("/agency")
+    public ModelAndView createAgency(@Valid @ModelAttribute("agency") AgencyDto agencyDto,BindingResult bindingResult){
+        ModelAndView modelAndView = new ModelAndView();
+        if (!bindingResult.hasErrors()) {
+            reservationService.addAgency(agencyDto);
+            modelAndView.addObject("agency",new AgencyDto());
+        }
+        modelAndView = addAgenciesToModel(modelAndView);
+        return modelAndView;
+    }
+
     @GetMapping("/bus")
     public ModelAndView createBus() {
         ModelAndView modelAndView = addBusesToModel(new ModelAndView());
+        modelAndView = addAgenciesToModel(modelAndView);
+
         BusDto busDto = new BusDto();
         modelAndView.addObject("bus", busDto);
         return modelAndView;
@@ -81,6 +103,7 @@ public class DashboardController {
             modelAndView.addObject("bus", new BusDto());
         }
         modelAndView = addBusesToModel(modelAndView);
+        modelAndView = addAgenciesToModel(modelAndView);
         return modelAndView;
     }
 
@@ -103,4 +126,13 @@ public class DashboardController {
         modelAndView.addObject("trips", trips);
         return modelAndView;
     }
+
+    private ModelAndView addAgenciesToModel(ModelAndView modelAndView) {
+        List<AgencyDto> agencies = reservationService.getAllAgency();
+        modelAndView.addObject("agencies", agencies);
+        return modelAndView;
+    }
+
+
+
 }

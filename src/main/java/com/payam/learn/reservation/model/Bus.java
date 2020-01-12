@@ -6,6 +6,8 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.UUID;
 
 @Accessors(chain = true)
@@ -23,6 +25,7 @@ public class Bus {
     private String detail;
 
     private int capacity;
-
+    @ManyToOne
+    private Agency agency;
 
 }

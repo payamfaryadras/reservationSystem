@@ -1,14 +1,18 @@
 package com.payam.learn.reservation.services;
 
+import com.payam.learn.reservation.dto.mapper.AgencyMapper;
 import com.payam.learn.reservation.dto.mapper.BusMapper;
 import com.payam.learn.reservation.dto.mapper.StopMapper;
 import com.payam.learn.reservation.dto.mapper.TripMapper;
+import com.payam.learn.reservation.dto.model.AgencyDto;
 import com.payam.learn.reservation.dto.model.BusDto;
 import com.payam.learn.reservation.dto.model.StopDto;
 import com.payam.learn.reservation.dto.model.TripDto;
+import com.payam.learn.reservation.model.Agency;
 import com.payam.learn.reservation.model.Bus;
 import com.payam.learn.reservation.model.Stop;
 import com.payam.learn.reservation.model.Trip;
+import com.payam.learn.reservation.repositories.AgencyRepository;
 import com.payam.learn.reservation.repositories.BusRepository;
 import com.payam.learn.reservation.repositories.StopRepository;
 import com.payam.learn.reservation.repositories.TripRepository;
@@ -30,6 +34,9 @@ public class DefaultReservationService implements ReservationService {
 
     @Autowired
     private BusRepository busRepository;
+
+    @Autowired
+    private AgencyRepository agencyRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -55,8 +62,8 @@ public class DefaultReservationService implements ReservationService {
 
     private Bus getBus(UUID busCode) {
         Optional<Bus> bus = busRepository.findById(busCode);
-        if(bus.isPresent()){
-           return bus.get();
+        if (bus.isPresent()) {
+            return bus.get();
         }
         //TODO
         throw new RuntimeException("");
@@ -105,10 +112,37 @@ public class DefaultReservationService implements ReservationService {
     }
 
     @Override
+    @Transactional
     public BusDto addBus(BusDto busDto) {
-        if (busDto.getCapacity() > 10) {
-            return BusMapper.toBusDto(busRepository.save(BusMapper.toBus(busDto)));
+        if (busDto.getCapacity() > 10 && (!busDto.getAgencyId().isEmpty())) {
+            Agency agency = getAgency(busDto);
+            Bus bus = BusMapper.toBus(busDto);
+            bus.setAgency(agency);
+            return BusMapper.toBusDto(busRepository.save(bus));
         }
         throw new RuntimeException("Capacity should be greater than 10!!!");
+    }
+
+    private Agency getAgency(BusDto busDto) {
+        Optional<Agency> agency = agencyRepository.findById(UUID.fromString(busDto.getAgencyId()));
+        if (agency.isPresent()) {
+            return agency.get();
+        }
+        //TODO
+        throw new RuntimeException("");
+    }
+
+    @Override
+    public List<AgencyDto> getAllAgency() {
+        return agencyRepository.findAll().stream().map(agency ->
+                modelMapper.map(agency, AgencyDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public AgencyDto addAgency(AgencyDto agencyDto) {
+        if (agencyDto != null) {
+            return AgencyMapper.toAgencyDto(agencyRepository.save(AgencyMapper.toAgency(agencyDto)));
+        }
+        throw new RuntimeException("agency cannot be null");
     }
 }

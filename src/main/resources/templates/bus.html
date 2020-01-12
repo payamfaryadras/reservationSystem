@@ -44,6 +44,7 @@
                                 <th>#</th>
                                 <th>Bus Code</th>
                                 <th>Capacity</th>
+                                <th>Agency Name</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,6 +53,7 @@
                                     <td th:text=${iterationStatus.count}></td>
                                     <td th:text=${bus.detail}></td>
                                     <td th:text=${bus.capacity}></td>
+                                    <td th:text="${bus.agencyName}"></td>
                                 </tr>
                             </th:block>
                             </tbody>
@@ -80,6 +82,21 @@
                                 <input type="text" th:field="*{capacity}" class="form-control form-control-line" name="capacity" id="capacity">
                             </div>
                             <small class="text-danger-padded" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></small>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="agencyId" class="col-md-12">Agency Name</label>
+                            <div class="col-md-12">
+                                <select class="form-control" th:field="*{agencyId}" id="agencyId" name="agencyId">
+                                    <option th:each="agency : ${agencies}"
+                                            th:value="${agency.id}"
+                                            th:text="${agency.name}"
+                                            th:selected="${bus.id == bus.agencyId}">
+                                    </option>
+                                </select>
+                            </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('agencyId')}" th:errors="*{agencyId}"></small>
                         </div>
 
                         <div class="form-group">
